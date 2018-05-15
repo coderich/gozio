@@ -9,7 +9,9 @@
     "health"
   ],
   "dependencies": {
-    "hapi": "17.4.x"
+    "hapi": "17.4.x",
+    "mongoose": "5.1.x",
+    "underscore": "1.9.x"
   },
   "devDependencies": {},
   "scripts": {
