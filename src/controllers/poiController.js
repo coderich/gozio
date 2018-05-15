@@ -13,7 +13,6 @@ exports.list = (req, h) => {
 exports.get = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
-
         return poi;
     }).catch((err) => {
         return h.response(err.toString()).code(500);
@@ -31,7 +30,6 @@ exports.create = (req, h) => {
 exports.update = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
-
         _.extend(poi, req.payload);
         return poi.save();
     }).then((poi) => {
@@ -44,7 +42,6 @@ exports.update = (req, h) => {
 exports.remove = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
-
         return poi.remove();
     }).then((poi) => {
         return poi;
@@ -52,4 +49,3 @@ exports.remove = (req, h) => {
         return h.response(err.toString()).code(500);
     });
 }
-
