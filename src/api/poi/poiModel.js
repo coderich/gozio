@@ -7,7 +7,7 @@ const Schema = Mongoose.Schema;
 const schema = new Schema({
 	name: { type:String, required:true, index:{unique:true} },
 	description: { type:String },
-	images: [{uri:String, position:Number}],
+	images: [{_id:false, name:String, position:Number, uri:String}],
 	isComplete : { type:Boolean, default:false }
 }, {
 	timestamps: true
@@ -23,11 +23,11 @@ schema.pre('save', function(next) {
 	next();
 });
 
-schema.post('init', function(poi) {
-	poi.images.forEach(function(image) {
-		image.uri = 'https://google.com';
-	});
-})
+// schema.post('init', function(poi) {
+// 	poi.images.forEach(function(image) {
+// 		image.uri = 'https://google.com';
+// 	});
+// });
 
 
 module.exports = Mongoose.model('POI', schema);

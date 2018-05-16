@@ -9,7 +9,7 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-const routes = require('./poi/poiRoute');
+const routes = require('./src/api/poi/poiRoute');
 server.route(routes);
 
 (async() => {

@@ -1,0 +1,18 @@
+'use strict';
+
+const POIController = require('./poiController');
+
+module.exports = [
+	// Main POI Object API
+    { method:'GET', path:'/poi', handler:POIController.list },
+    { method:'GET', path:'/poi/{id}', handler:POIController.get },
+    { method:'POST', path:'/poi', config:{pre:[POIController.clean], handler:POIController.create} },
+    { method:'PUT', path:'/poi/{id}', config:{pre:[POIController.clean], handler:POIController.update} },
+    { method:'DELETE', path:'/poi/{id}', handler:POIController.remove },
+
+    // POI Image API
+    { method:'POST', path:'/poi/{id}/image', config:{payload:{output:'stream', allow:'multipart/form-data', maxBytes:1048576*10, parse:true}, handler:POIController.createImage} },
+    // { method:'PUT', path:'/poi/{id}/image/{id}', config:{payload:{output:'stream', allow:'multipart/form-data', parse:true}, handler:POIController.updateImage} },
+    // { method:'PUT', path:'/poi/{id}/image/reposition', handler:POIController.repositionImage },
+    { method:'DELETE', path:'/poi/{id}/image/{name}', handler:POIController.removeImage },
+];
