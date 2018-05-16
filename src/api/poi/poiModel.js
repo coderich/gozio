@@ -30,4 +30,4 @@ schema.pre('save', function(next) {
 // });
 
 
-module.exports = Mongoose.model('POI', schema);
+module.exports = Mongoose.model('POI', schema, 'poi');

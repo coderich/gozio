@@ -34,4 +34,10 @@ Api.removeImage = function(name) {
 	});
 };
 
+Api.replaceImage = function(oldName, newFile, newName) {
+	return Api.removeImage(oldName).then(function() {
+		return Api.saveImage(newFile, newName);
+	});
+};
+
 module.exports = Api;

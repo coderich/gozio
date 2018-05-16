@@ -58,7 +58,6 @@ exports.remove = (req, h) => {
 // POI Image API
 exports.createImage = (req, h) => {
     var file = req.payload.file;
-
     if (!file) return h.response('Image File Missing').code(500);
 
     return POI.findById(req.params.id).exec().then((poi) => {
@@ -78,10 +77,22 @@ exports.createImage = (req, h) => {
 };
 
 exports.updateImage = (req, h) => {
+    var file = req.payload.file;
+    if (!file) return h.response('Image File Missing').code(500);
+
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
-        _.extend(poi, req.payload);
-        return poi.save();
+
+        var oldImage = _.find(poi.images, {name:req.params.name});
+        if (!oldImage) return h.response('POI Image Not Found').code(404);
+
+        var newName = UtilService.uid();
+
+        return UtilService.replaceImage(oldImage.name, file, newName).then(function() {
+            oldImage.name = newName;
+            poi.markModified('images');
+            return poi.save();
+        });
     }).then((poi) => {
         return poi;
     }).catch((err) => {
@@ -93,10 +104,16 @@ exports.removeImage = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
 
-        var name = req.params.name;
+        var oldImage = _.remove(poi.images, {name:req.params.name})[0];
+        if (!oldImage) return h.response('POI Image Not Found').code(404);
 
-        return UtilService.removeImage(name).then(function() {
-            _.remove(poi.images, {name:name});
+        return UtilService.removeImage(oldImage.name).then(function() {
+            // Reposition images
+            poi.images.forEach(function(img) {
+                if (img.position > oldImage.position) img.position--;
+            });
+
+            poi.markModified('images');
             return poi.save();
         });
     }).then((poi) => {
