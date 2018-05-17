@@ -3,6 +3,8 @@
 const _ = require('lodash');
 const FS = require('fs');
 const Path = require('path');
+const FormData = require('form-data');
+const StreamToPromise = require('stream-to-promise');
 const AppDir = Path.join(__dirname, '..', '..', '..');
 const Server = require(Path.join(AppDir, 'server'));
 
@@ -10,9 +12,10 @@ const immutableData = {isComplete:true, images:[{name:'image.jpg', position:0}],
 const poi1Data = Object.assign({name:'Cafe', description:'Coffee'}, immutableData);
 const poi2Data = Object.assign({name:'Bookstore', description:'Books'}, immutableData);
 const poi3Data = Object.assign({name:'Gym', description:'Workout'}, immutableData);
-const image1Data = Object.assign({file:FS.readFileSync(Path.join(AppDir, 'assets', 'test', 'cafe.jpg'))}, immutableData);
-const image2Data = Object.assign({file:FS.readFileSync(Path.join(AppDir, 'assets', 'test', 'book.jpg'))}, immutableData);
-const image3Data = Object.assign({file:FS.readFileSync(Path.join(AppDir, 'assets', 'test', 'gym.jpg'))}, immutableData);
+const image1Data = new FormData(); image1Data.append('file', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'cafe.jpg')));
+const image2Data = new FormData(); image2Data.append('file', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'book.jpg')));
+const image3Data = new FormData(); image3Data.append('file', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'gym.jpg')));
+
 var poi1Id, poi2Id, poi3Id;
 
 describe('POI endpoints...', () => {
@@ -81,9 +84,13 @@ describe('POI endpoints...', () => {
 	});
 
 	test('Add New POI1 Image...', () => {
-	    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:image1Data}).then(response => {
-	    	var result = response.result;
-	    	console.log(result);
-	    });
+		return StreamToPromise(image1Data).then(function(payload) {
+		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image1Data.getHeaders()}).then(response => {
+		    	var result = response.result;
+		    	expect(response.statusCode).toBe(200);	// Success
+		    	expect(result.isComplete).toBe(true);	// Should now be complete!
+		    	expect(result.images.length).toBe(1);	// Should have 1 image
+		    });
+		});
 	});
 });
