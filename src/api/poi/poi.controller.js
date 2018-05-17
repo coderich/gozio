@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const POI = require('./poiModel');
+const POI = require('./poi.model');
 const UtilService = require('../../service/utilService');
 
 
@@ -25,7 +25,7 @@ exports.get = (req, h) => {
 
 exports.create = (req, h) => {
     return POI.create(req.payload).then((poi) => {
-        return poi;
+        return h.response(poi).code(201);
     }).catch((err) => {
         return h.response(err.toString()).code(500);
     });
@@ -37,7 +37,7 @@ exports.update = (req, h) => {
         _.extend(poi, req.payload);
         return poi.save();
     }).then((poi) => {
-        return poi;
+        return h.response(poi).code(201);
     }).catch((err) => {
         return h.response(err.toString()).code(500);
     });
@@ -48,7 +48,7 @@ exports.remove = (req, h) => {
         if (!poi) return h.response('POI Not Found').code(404);
         return poi.remove();
     }).then((poi) => {
-        return poi;
+        return h.response(poi).code(204);
     }).catch((err) => {
         return h.response(err.toString()).code(500);
     });
@@ -58,7 +58,7 @@ exports.remove = (req, h) => {
 // POI Image API
 exports.createImage = (req, h) => {
     var file = req.payload.file;
-    if (!file) return h.response('Image File Missing').code(500);
+    if (!file) return h.response('Image File Missing').code(400);
 
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
@@ -78,7 +78,7 @@ exports.createImage = (req, h) => {
 
 exports.updateImage = (req, h) => {
     var file = req.payload.file;
-    if (!file) return h.response('Image File Missing').code(500);
+    if (!file) return h.response('Image File Missing').code(400);
 
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);

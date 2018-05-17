@@ -9,15 +9,19 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-const routes = require('./src/api/poi/poiRoute');
+const routes = require('./src/api/poi/poi.route');
 server.route(routes);
 
-(async() => {
-	try {
-		await server.start();
-		Mongoose.connect(MongoDBUrl, {}).then(() => { console.log(`Connected to Mongo server`) }, err => { console.log(err) });
-		console.log(`Server running at: ${server.info.uri}`);
-	} catch (err) {
-		console.log(err)
-	}
-})();
+if (!module.parent) {
+	(async() => {
+		try {
+			await server.start();
+			Mongoose.connect(MongoDBUrl, {}).then(() => { console.log(`Connected to Mongo server`) }, err => { console.log(err) });
+			console.log(`Server running at: ${server.info.uri}`);
+		} catch (err) {
+			console.log(err)
+		}
+	})();
+}
+
+module.exports = server;
