@@ -12,9 +12,11 @@ const schema = new Schema({
 	images: [{_id:false, name:String, position:Number, uri:String}],
 	isComplete : { type:Boolean, default:false }
 }, {
-	timestamps: true
+	timestamps: true,
 });
 
+
+// Middleware
 schema.pre('save', function(next) {
 	// Ensure isComplete flag
 	if (this.name && this.name.length && this.description && this.description.length && this.images && this.images.length)
@@ -25,7 +27,14 @@ schema.pre('save', function(next) {
 	next();
 });
 
+
 // Methods
+schema.methods.toJSON = function(opts) {
+	this.images.forEach(function(image) {
+		image.uri = 'http://localhost.com:3000/assets/uploads/' + image.name;
+	});
+};
+
 schema.methods.saveImage = function(image) {
 	var filename = UtilService.uid();
 
@@ -39,7 +48,6 @@ schema.methods.updateImage = function(name, image) {
     var newName = UtilService.uid();
 	var oldImage = _.find(this.images, {name:name});
 	if (!oldImage) return Promise.reject('POI Image Not Found');
-    // if (!oldImage) return h.response('POI Image Not Found').code(404);
 
     return UtilService.replaceImage(oldImage.name, image, newName).then(() => {
         oldImage.name = newName;
@@ -51,7 +59,6 @@ schema.methods.updateImage = function(name, image) {
 schema.methods.removeImage = function(name) {
 	var oldImage = _.remove(this.images, {name:name})[0];
 	if (!oldImage) return Promise.reject('POI Image Not Found');
-    // if (!oldImage) return h.response('POI Image Not Found').code(404);
 
     return UtilService.removeImage(oldImage.name).then(() => {
         // Reposition images
@@ -63,12 +70,6 @@ schema.methods.removeImage = function(name) {
         return this.save();
     });
 };
-
-// schema.post('init', function(poi) {
-// 	poi.images.forEach(function(image) {
-// 		image.uri = 'https://google.com';
-// 	});
-// });
 
 
 module.exports = Mongoose.model('POI', schema, 'poi');

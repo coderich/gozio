@@ -86,12 +86,12 @@ describe('POI endpoints...', () => {
 
 		return StreamToPromise(image1Data).then(function(payload) {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image1Data.getHeaders()}).then(response => {
-		    	var result = response.result;
+		    	var result = response.result; image1Name = result.images[0].name;
 		    	expect(response.statusCode).toBe(200);		// Success
 		    	expect(result.isComplete).toBe(true);		// Should now be complete!
 		    	expect(result.images.length).toBe(1);		// Should have 1 image
 		    	expect(result.images[0].position).toBe(0);	// Should be position 0
-		    	image1Name = result.images[0].name;
+		    	expect(result.images[0].uri).toBeDefined();	// Should have a URI
 		    });
 		});
 	});
@@ -101,13 +101,13 @@ describe('POI endpoints...', () => {
 
 		return StreamToPromise(image2Data).then(function(payload) {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image2Data.getHeaders()}).then(response => {
-		    	var result = response.result;
+		    	var result = response.result; image2Name = result.images[1].name;
 		    	expect(response.statusCode).toBe(200);		// Success
 		    	expect(result.isComplete).toBe(true);		// Should still be complete
 		    	expect(result.images.length).toBe(2);		// Should have 2 images
 		    	expect(result.images[0].position).toBe(0);	// Should be position 0
 		    	expect(result.images[1].position).toBe(1);	// Should be position 1
-		    	image2Name = result.images[1].name;
+		    	// expect(result.images[1].uri).toBeDefined();	// Should have a URI
 		    });
 		});
 	});
@@ -117,14 +117,14 @@ describe('POI endpoints...', () => {
 
 		return StreamToPromise(image3Data).then(function(payload) {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image3Data.getHeaders()}).then(response => {
-		    	var result = response.result;
+		    	var result = response.result; image3Name = result.images[2].name;
 		    	expect(response.statusCode).toBe(200);		// Success
 		    	expect(result.isComplete).toBe(true);		// Should still be complete
 		    	expect(result.images.length).toBe(3);		// Should have 3 images
 		    	expect(result.images[0].position).toBe(0);	// Should be position 0
 		    	expect(result.images[1].position).toBe(1);	// Should be position 1
 		    	expect(result.images[2].position).toBe(2);	// Should be position 2
-		    	image3Name = result.images[2].name;
+		    	// expect(result.images[3].uri).toBeDefined();	// Should have a URI
 		    });
 		});
 	});
