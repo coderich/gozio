@@ -13,6 +13,6 @@ module.exports = [
     // POI Image API
     { method:'POST', path:'/poi/{id}/image', config:{payload:{output:'stream', allow:'multipart/form-data', maxBytes:1048576*10, parse:true}, handler:POIController.createImage} },
     { method:'PUT', path:'/poi/{id}/image/{name}', config:{payload:{output:'stream', allow:'multipart/form-data', maxBytes:1048576*10, parse:true}, handler:POIController.updateImage} },
-    // { method:'PUT', path:'/poi/{id}/image/reposition', handler:POIController.repositionImage },
     { method:'DELETE', path:'/poi/{id}/image/{name}', handler:POIController.removeImage },
+    // { method:'PUT', path:'/poi/{id}/image/reposition', handler:POIController.repositionImage },
 ];
