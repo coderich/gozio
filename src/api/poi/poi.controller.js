@@ -34,7 +34,11 @@ exports.create = (req, h) => {
 exports.update = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
-        _.extend(poi, req.payload);
+
+        Object.keys(req.payload).forEach((key) => {
+            poi.set(key, req.payload[key]);
+        });
+
         return poi.save();
     }).then((poi) => {
         return h.response(poi).code(201);
