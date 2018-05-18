@@ -6,6 +6,7 @@ const Path = require('path');
 const Api = {};
 const uploadFolder = Path.join(__dirname, '..', '..', 'assets', 'uploads');
 
+// TODO - Make this better
 Api.uid = function() {
 	return new Date().getTime();
 };

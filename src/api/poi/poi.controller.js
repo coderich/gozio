@@ -2,8 +2,6 @@
 
 const Boom = require('boom');
 const POI = require('./poi.model');
-const UtilService = require('../../service/util.service');
-
 
 /**
  * @api {get} /poi List
@@ -127,7 +125,7 @@ exports.updateImage = (req, h) => {
         if (!poi) throw Boom.notFound('POI Not Found');
         return poi.updateImage(req.params.name, image);
     });
-}
+};
 
 /**
  * @api {delete} /poi/:id/image/:name Remove Image
@@ -143,12 +141,12 @@ exports.removeImage = (req, h) => {
         if (!poi) throw Boom.notFound('POI Not Found');
         return poi.removeImage(req.params.name);
     });
-}
+};
 
-//
+// TODO - not sure I like this here
 exports.clean = (req, h) => {
     req.payload = req.payload || {};
     delete req.payload.isComplete;
     delete req.payload.images;
     return h.continue;
-}
+};

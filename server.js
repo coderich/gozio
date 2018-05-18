@@ -9,9 +9,29 @@ const server = Hapi.server({
     host: 'localhost',
 });
 
+// Routes
 const routes = require('./src/api/poi/poi.route');
-server.route(routes);
 
+// Custom Error handling
+// TODO - Better logging and/or transformation of error
+const preResponse = function (request, h) {
+    const response = request.response;
+
+    // For now I just want to see 500 errors, we can log or do transformations here...
+    if (response.isServer) {
+    	console.error(response.message);
+    }
+
+    return h.continue;
+};
+
+
+//
+server.route(routes);
+server.ext('onPreResponse', preResponse);
+
+
+// Start the server
 if (!module.parent) {
 	(async() => {
 		try {

@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const FS = require('fs');
 const Path = require('path');
 const FormData = require('form-data');
@@ -71,7 +70,7 @@ describe('POI endpoints...', () => {
 	test('Create Duplicate POI..', () => {
 	    return Server.inject({method:'POST', url:'/poi', payload:poi1Data}).then(response => {
 	    	var result = response.result;
-	    	expect(response.statusCode).toBe(500);
+	    	expect(response.statusCode).toBe(500);		// TODO - perhaps this should be something else
 	    });
 	});
 
@@ -114,7 +113,7 @@ describe('POI endpoints...', () => {
 		    	expect(result.images.length).toBe(2);		// Should have 2 images
 		    	expect(result.images[0].position).toBe(0);	// Should be position 0
 		    	expect(result.images[1].position).toBe(1);	// Should be position 1
-		    	// expect(result.images[1].uri).toBeDefined();	// Should have a URI
+		    	expect(result.images[1].uri).toBeDefined();	// Should have a URI
 		    });
 		});
 	});
@@ -131,7 +130,7 @@ describe('POI endpoints...', () => {
 		    	expect(result.images[0].position).toBe(0);	// Should be position 0
 		    	expect(result.images[1].position).toBe(1);	// Should be position 1
 		    	expect(result.images[2].position).toBe(2);	// Should be position 2
-		    	// expect(result.images[3].uri).toBeDefined();	// Should have a URI
+		    	expect(result.images[2].uri).toBeDefined();	// Should have a URI
 		    });
 		});
 	});
@@ -194,7 +193,7 @@ describe('POI endpoints...', () => {
 	    return Server.inject({method:'GET', url:'/poi'}).then(response => {
 	    	var result = response.result;
 	    	expect(response.statusCode).toBe(200);	// Successful GET
-	    	expect(result.length).toBe(2);			// We should have 2 POIs
+	    	expect(result.length).toBe(2);			// We should now have 2 POIs
 	    });
 	});
 });
