@@ -25,6 +25,13 @@ describe('POI endpoints...', () => {
 	    });
 	});
 
+	test('GET Non-Existant POI...', () => {
+	    return Server.inject({method:'GET', url:'/poi/5aff0883b5764547de9a6aee'}).then(response => {
+	    	var result = response.result;
+	    	expect(response.statusCode).toBe(404);		// POI Not Found
+	    });
+	});
+
 	test('Create New POI...', () => {
 	    return Server.inject({method:'POST', url:'/poi', payload:poi1Data}).then(response => {
 	    	var result = response.result;

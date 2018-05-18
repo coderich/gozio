@@ -6,7 +6,7 @@ const MongoDBUrl = 'mongodb://localhost:27017/gozio';
 
 const server = Hapi.server({
     port: 3000,
-    host: 'localhost'
+    host: 'localhost',
 });
 
 const routes = require('./src/api/poi/poi.route');

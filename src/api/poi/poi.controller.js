@@ -1,5 +1,6 @@
 'use strict';
 
+const Boom = require('boom');
 const POI = require('./poi.model');
 const UtilService = require('../../service/util.service');
 
@@ -13,8 +14,6 @@ const UtilService = require('../../service/util.service');
 exports.list = (req, h) => {
     return POI.find({}).exec().then((pois) => {
         return pois;
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -28,10 +27,8 @@ exports.list = (req, h) => {
  */
 exports.get = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
         return poi;
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -47,8 +44,6 @@ exports.get = (req, h) => {
 exports.create = (req, h) => {
     return POI.create(req.payload).then((poi) => {
         return h.response(poi).code(201);
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -64,8 +59,9 @@ exports.create = (req, h) => {
  */
 exports.update = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
 
+        // Assign keys from payload to POI
         Object.keys(req.payload).forEach((key) => {
             poi.set(key, req.payload[key]);
         });
@@ -73,8 +69,6 @@ exports.update = (req, h) => {
         return poi.save();
     }).then((poi) => {
         return h.response(poi).code(201);
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -88,12 +82,10 @@ exports.update = (req, h) => {
  */
 exports.remove = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
         return poi.remove();
     }).then((poi) => {
         return h.response(poi).code(204);
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -109,15 +101,11 @@ exports.remove = (req, h) => {
  */
 exports.createImage = (req, h) => {
     var image = req.payload.image;
-    if (!image) return h.response('Image Missing').code(400);
+    if (!image) throw Boom.badRequest('Image Missing');
 
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
         return poi.saveImage(image);
-    }).then((poi) => {
-        return poi;
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 };
 
@@ -133,15 +121,11 @@ exports.createImage = (req, h) => {
  */
 exports.updateImage = (req, h) => {
     var image = req.payload.image;
-    if (!image) return h.response('Image Missing').code(400);
+    if (!image) throw Boom.badRequest('Image Missing');
 
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
         return poi.updateImage(req.params.name, image);
-    }).then((poi) => {
-        return poi;
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 }
 
@@ -156,17 +140,14 @@ exports.updateImage = (req, h) => {
  */
 exports.removeImage = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
-        if (!poi) return h.response('POI Not Found').code(404);
+        if (!poi) throw Boom.notFound('POI Not Found');
         return poi.removeImage(req.params.name);
-    }).then((poi) => {
-        return poi;
-    }).catch((err) => {
-        return h.response(err.toString()).code(500);
     });
 }
 
 //
 exports.clean = (req, h) => {
+    req.payload = req.payload || {};
     delete req.payload.isComplete;
     delete req.payload.images;
     return h.continue;
