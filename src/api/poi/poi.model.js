@@ -5,7 +5,20 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const UtilService = require('../../service/util.service');
 
-
+/**
+ * @api {n/a} - POI Object Reference
+ * @apiName schema
+ * @apiGroup POI
+ *
+ * @apiSuccess {Number}     id              Unique ID of POI
+ * @apiSuccess {String}     name            Name of the POI
+ * @apiSuccess {String}     description     Description of the POI
+ * @apiSuccess {Object[]}   images          List of POI Images
+ * @apiSuccess {String}     images.name     Unique image name
+ * @apiSuccess {Number}     images.position Position of the image for display
+ * @apiSuccess {String}     images.uri      Fully qualified URI for image
+ * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
+ */
 const schema = new Schema({
 	name: { type:String, required:true, index:{unique:true} },
 	description: { type:String },

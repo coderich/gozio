@@ -4,7 +4,12 @@ const POI = require('./poi.model');
 const UtilService = require('../../service/util.service');
 
 
-// Main POI Object API
+/**
+ * @api {get} /poi List
+ * @apiName list
+ * @apiDescription List all available POIs. Returns an array of POIs.
+ * @apiGroup POI
+ */
 exports.list = (req, h) => {
     return POI.find({}).exec().then((pois) => {
         return pois;
@@ -14,30 +19,13 @@ exports.list = (req, h) => {
 };
 
 /**
- * @api {get} /poi/:id Request POI information
- * @apiName GetPOI
+ * @api {get} /poi/:id Get
+ * @apiName get
+ * @apiDescription Retreive an individual POI by id.
  * @apiGroup POI
  *
- * @apiParam {Number} id POI unique ID
+ * @apiParam {Number}   id  POI ID
  *
- * @apiSuccess {Number}     id              Unique ID of POI
- * @apiSuccess {String}     name            Name of the POI
- * @apiSuccess {String}     description     Description of the POI
- * @apiSuccess {Object[]}   images          List of POI Images
- * @apiSuccess {String}     images.name     Unique image name
- * @apiSuccess {Number}     images.position Position of the image for display
- * @apiSuccess {String}     images.uri      Fully qualified URI for image
- * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
- *
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200 OK
- *     {
-         "id": "",
- *       "name": "Cafe",
- *       "description": "Where people eat and drink",
- *       "images": [],
- *       "isComplete": false
- *     }
  */
 exports.get = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
@@ -48,6 +36,15 @@ exports.get = (req, h) => {
     });
 };
 
+/**
+ * @api {post} /poi Create
+ * @apiName create
+ * @apiDescription Create an individual POI. Returns the created POI.
+ * @apiGroup POI
+ *
+ * @apiParam {String}   name            Name of POI (unique)
+ * @apiParam {String}   [description]   Description of POI
+ */
 exports.create = (req, h) => {
     return POI.create(req.payload).then((poi) => {
         return h.response(poi).code(201);
@@ -56,6 +53,16 @@ exports.create = (req, h) => {
     });
 };
 
+/**
+ * @api {put} /poi/:id Update
+ * @apiName update
+ * @apiDescription Update an individual POI. Returns the updated POI.
+ * @apiGroup POI
+ *
+ * @apiParam {Number}   id              POI ID
+ * @apiParam {String}   [name]          Name of POI
+ * @apiParam {String}   [description]   Description of POI
+ */
 exports.update = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
@@ -72,6 +79,14 @@ exports.update = (req, h) => {
     });
 };
 
+/**
+ * @api {delete} /poi/:id Remove
+ * @apiName remove
+ * @apiDescription Remove an individual POI. Returns no content.
+ * @apiGroup POI
+ *
+ * @apiParam {Number}   id  POI ID
+ */
 exports.remove = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);
@@ -84,7 +99,15 @@ exports.remove = (req, h) => {
 };
 
 
-// POI Image API
+/**
+ * @api {post} /poi/:id/image Create Image
+ * @apiName create-image
+ * @apiDescription Upload a new POI image. Returns the updated POI.
+ * @apiGroup POI
+ *
+ * @apiParam {Number}   id      POI ID
+ * @apiParam {File}     image   The image file for upload
+ */
 exports.createImage = (req, h) => {
     var image = req.payload.image;
     if (!image) return h.response('Image Missing').code(400);
@@ -99,6 +122,16 @@ exports.createImage = (req, h) => {
     });
 };
 
+/**
+ * @api {put} /poi/:id/image/:name Update Image
+ * @apiName update-image
+ * @apiDescription Update an existing POI image. Returns the updated POI.
+ * @apiGroup POI
+ *
+ * @apiParam {Number}   id      POI ID
+ * @apiParam {String}   name    POI Image Name
+ * @apiParam {File}     image   The image file for upload
+ */
 exports.updateImage = (req, h) => {
     var image = req.payload.image;
     if (!image) return h.response('Image Missing').code(400);
@@ -113,6 +146,15 @@ exports.updateImage = (req, h) => {
     });
 }
 
+/**
+ * @api {delete} /poi/:id/image/:name Remove Image
+ * @apiName remove-image
+ * @apiDescription Remove an existing POI image. Returns the updated POI.
+ * @apiGroup POI
+ *
+ * @apiParam {Number}   id      POI ID
+ * @apiParam {String}   name    POI Image Name
+ */
 exports.removeImage = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);

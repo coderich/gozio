@@ -1,0 +1,13 @@
+{
+	"order": [
+		"schema",
+		"list",
+		"get",
+		"create",
+		"update",
+		"remove",
+		"create-image",
+		"update-image",
+		"remove-image"
+	]
+}
