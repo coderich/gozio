@@ -16,7 +16,7 @@ const schema = new Schema({
 });
 
 
-// Middleware
+// Middleware hooks
 schema.pre('save', function(next) {
 	// Ensure isComplete flag
 	if (this.name && this.name.length && this.description && this.description.length && this.images && this.images.length)
@@ -27,12 +27,18 @@ schema.pre('save', function(next) {
 	next();
 });
 
+schema.pre('remove', function(next) {
+	this.removeAllImages().then(() => next());
+});
+
 
 // Methods
 schema.methods.toJSON = function(opts) {
 	this.images.forEach(function(image) {
 		image.uri = 'http://localhost.com:3000/assets/uploads/' + image.name;
 	});
+
+	return this.toObject();
 };
 
 schema.methods.saveImage = function(image) {
@@ -69,6 +75,12 @@ schema.methods.removeImage = function(name) {
         this.markModified('images');
         return this.save();
     });
+};
+
+schema.methods.removeAllImages = function() {
+	return Promise.all(this.images.map(img => {
+		return UtilService.removeImage(img.name);
+	}));
 };
 
 

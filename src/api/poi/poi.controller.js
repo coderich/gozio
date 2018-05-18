@@ -13,6 +13,32 @@ exports.list = (req, h) => {
     });
 };
 
+/**
+ * @api {get} /poi/:id Request POI information
+ * @apiName GetPOI
+ * @apiGroup POI
+ *
+ * @apiParam {Number} id POI unique ID
+ *
+ * @apiSuccess {Number}     id              Unique ID of POI
+ * @apiSuccess {String}     name            Name of the POI
+ * @apiSuccess {String}     description     Description of the POI
+ * @apiSuccess {Object[]}   images          List of POI Images
+ * @apiSuccess {String}     images.name     Unique image name
+ * @apiSuccess {Number}     images.position Position of the image for display
+ * @apiSuccess {String}     images.uri      Fully qualified URI for image
+ * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+         "id": "",
+ *       "name": "Cafe",
+ *       "description": "Where people eat and drink",
+ *       "images": [],
+ *       "isComplete": false
+ *     }
+ */
 exports.get = (req, h) => {
     return POI.findById(req.params.id).exec().then((poi) => {
         if (!poi) return h.response('POI Not Found').code(404);

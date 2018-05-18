@@ -1,0 +1,1 @@
+define({  "name": "gozio",  "version": "1.0.0",  "description": "Gozio evaluation project",  "sampleUrl": false,  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2018-05-18T17:04:05.757Z",    "url": "http://apidocjs.com",    "version": "0.17.6"  }});

@@ -15,11 +15,13 @@
   },
   "devDependencies": {
     "jest": "*",
-    "stream-to-promise": "2.2.x"
+    "stream-to-promise": "2.2.x",
+    "apidoc": "0.17.x"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "apidoc": "apidoc -i src/ -o apidoc/"
   },
   "repository": {
     "type": "git",
