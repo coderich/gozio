@@ -7,8 +7,8 @@ const UtilService = require('../../service/util.service');
 
 /**
  * @api {n/a} - POI Object Reference
- * @apiName schema
  * @apiGroup POI
+ * @apiName schema
  *
  * @apiSuccess {Number}     id              Unique ID of POI
  * @apiSuccess {String}     name            Name of the POI
