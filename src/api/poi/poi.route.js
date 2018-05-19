@@ -1,6 +1,6 @@
 'use strict';
 
-const POIController = require('./poi.controller');
+const POIController = require(__dirname + '/poi.controller');
 
 module.exports = [
 	// Main POI Object API

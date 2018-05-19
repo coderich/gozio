@@ -1,7 +1,7 @@
 'use strict';
 
 const Boom = require('boom');
-const POI = require('./poi.model');
+const POI = require(__dirname + '/poi.model');
 
 /**
  * @api {get} /poi List

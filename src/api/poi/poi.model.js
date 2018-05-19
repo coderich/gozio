@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
-const UtilService = require('../../service/util.service');
+const UtilService = require(__dirname + '/../../service/util.service');
 
 /**
  * @api {n/a} - POI Object Reference
@@ -19,7 +19,7 @@ const UtilService = require('../../service/util.service');
  * @apiSuccess {String}     images.uri      Fully qualified URI for image
  * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
  */
-const schema = new Schema({
+var schema = new Schema({
 	name: { type:String, required:true, index:{unique:true} },
 	description: { type:String },
 	images: [{_id:false, name:String, position:Number, uri:String}],

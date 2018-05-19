@@ -4,18 +4,18 @@ const FS = require('fs');
 const Path = require('path');
 const FormData = require('form-data');
 const StreamToPromise = require('stream-to-promise');
-const AppDir = Path.join(__dirname, '..', '..', '..');
-const Server = require(Path.join(AppDir, 'server'));
+const AppDir = __dirname + '/../../..';
+const Server = require(AppDir + '/server');
 
-const immutableData = {isComplete:true, images:[{name:'image.jpg', position:0}], nonsense:'to be ignored'};
-const poi1Data = Object.assign({name:'Cafe', description:'Coffee'}, immutableData);
-const poi2Data = Object.assign({name:'Bookstore', description:'Books'}, immutableData);
-const poi3Data = Object.assign({name:'Gym', description:'Workout'}, immutableData);
+var immutableData = {isComplete:true, images:[{name:'image.jpg', position:0}], nonsense:'to be ignored'};
+var poi1Data = Object.assign({name:'Cafe', description:'Coffee'}, immutableData);
+var poi2Data = Object.assign({name:'Bookstore', description:'Books'}, immutableData);
+var poi3Data = Object.assign({name:'Gym', description:'Workout'}, immutableData);
 
 var poi1Id, poi2Id, poi3Id;
 var image1Name, image2Name, image3Name;
 
-describe('POI endpoints...', () => {
+describe('POI API...', () => {
 	test('GET All POIs...', () => {
 	    return Server.inject({method:'GET', url:'/poi'}).then(response => {
 	    	var result = response.result;

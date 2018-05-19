@@ -1,10 +1,9 @@
 'use strict';
 
 const FS = require('fs');
-const Path = require('path');
+const UploadFolder = __dirname + '/../../assets/uploads';
 
-const Api = {};
-const uploadFolder = Path.join(__dirname, '..', '..', 'assets', 'uploads');
+var Api = {};
 
 // TODO - Make this better
 Api.uid = function() {
@@ -13,7 +12,7 @@ Api.uid = function() {
 
 Api.saveImage = function(file, name) {
 	return new Promise((resolve, reject) => {
-		var path = uploadFolder + '/' + name;
+		var path = UploadFolder + '/' + name;
 		var stream = FS.createWriteStream(path);
 
 		// Handlers
@@ -26,7 +25,7 @@ Api.saveImage = function(file, name) {
 
 Api.removeImage = function(name) {
 	return new Promise((resolve, reject) => {
-		var path = uploadFolder + '/' + name;
+		var path = UploadFolder + '/' + name;
 
 		FS.unlink(path, (err) => {
 			if (err) return reject(err);
