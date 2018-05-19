@@ -10,7 +10,7 @@ const server = Hapi.server({
 });
 
 // Routes
-const routes = require('./src/api/poi/poi.route');
+const routes = require(__dirname + '/src/api/poi/poi.route');
 
 // Custom Error handling
 // TODO - Better logging and/or transformation of error

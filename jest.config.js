@@ -1,4 +1,4 @@
 module.exports = {
 	testEnvironment : 'node',
-	setupTestFrameworkScriptFile : './jest.setup.js'
+	setupTestFrameworkScriptFile : __dirname + '/jest.setup.js'
 };
