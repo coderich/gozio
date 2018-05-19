@@ -49,6 +49,7 @@ const UtilService = require(__dirname + '/../../service/util.service');
  *         "isComplete": false
  *       }
  *     ]
+ *
  * @apiSuccessExample {json} Example Response Error
  *     {
  *       "statusCode": 400,
@@ -62,7 +63,7 @@ const schema = new Schema({
 	images: [{_id:false, name:String, position:Number, uri:String}],
 	isComplete : { type:Boolean, default:false }
 }, {
-	timestamps: true,
+	timestamps: true
 });
 
 
