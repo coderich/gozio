@@ -18,6 +18,43 @@ const UtilService = require(__dirname + '/../../service/util.service');
  * @apiSuccess {Number}     images.position Position of the image for display
  * @apiSuccess {String}     images.uri      Fully qualified URI for image
  * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
+ *
+ * @apiSuccessExample {json} Example Response
+ *     {
+ *       "id": "5aff0883b5764547de9a6aeb",
+ *       "name": "Cafe",
+ *       "description": "Come eat, drink, and work",
+ *       "images": [
+ *         {"name": "12234567890", "position":0, "uri": "http://localhost:3000/images/12234567890"}
+ *       ],
+ *       "isComplete": true
+ *     }
+ *
+ * @apiSuccessExample {json} Example Response2
+ *     [
+ *       {
+ *         "id": "5aff0883b5764547de9a6aeb",
+ *         "name": "Cafe",
+ *         "description": "Come eat, drink, and work",
+ *         "images": [
+ *           {"name": "12234567890", "position":0, "uri": "http://localhost:3000/images/12234567890"}
+ *         ],
+ *         "isComplete": true
+ *       },
+ *       {
+ *         "id": "5aff0883b5764547de9a6aef",
+ *         "name": "Gym",
+ *         "description": "Come eat, drink, and work out",
+ *         "images": [],
+ *         "isComplete": false
+ *       }
+ *     ]
+ * @apiSuccessExample {json} Example Response Error
+ *     {
+ *       "statusCode": 400,
+ *       "error": "Bad Request",
+ *       "message": "Image Missing"
+ *     }
  */
 const schema = new Schema({
 	name: { type:String, required:true, index:{unique:true} },
