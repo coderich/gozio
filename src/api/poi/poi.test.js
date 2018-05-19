@@ -8,9 +8,9 @@ const AppDir = __dirname + '/../../..';
 const Server = require(AppDir + '/server');
 
 const immutableData = {isComplete:true, images:[{name:'image.jpg', position:0}], nonsense:'to be ignored'};
-const poi1Data = Object.assign({name:'Cafe', description:'Coffee'}, immutableData);
-const poi2Data = Object.assign({name:'Bookstore', description:'Books'}, immutableData);
-const poi3Data = Object.assign({name:'Gym', description:'Workout'}, immutableData);
+const poi1Data = {...immutableData, name:'Cafe', description:'Coffee'};
+const poi2Data = {...immutableData, name:'Bookstore', description:'Books'};
+const poi3Data = {...immutableData, name:'Gym', description:'Workout'};
 
 var poi1Id, poi2Id, poi3Id;
 var image1Name, image2Name, image3Name;
@@ -75,7 +75,7 @@ describe('POI API...', () => {
 	});
 
 	test('Update Existing POI...', () => {
-		const poi = Object.assign({name:'Cafeteria'}, immutableData);
+		const poi = {...immutableData, name:'Cafeteria'};
 
 	    return Server.inject({method:'PUT', url:'/poi/' + poi1Id, payload:poi}).then(response => {
 	    	const result = response.result;
