@@ -8,8 +8,8 @@ const UtilService = require(__dirname + '/util.service');
 
 describe('Utility Service...', () => {
 	test('Save Image...', () => {
-		var file = FS.createReadStream(AppDir + '/assets/test/cafe.jpg');
-		var target = UploadFolder + '/save-image-test.jpg';
+		const file = FS.createReadStream(AppDir + '/assets/test/cafe.jpg');
+		const target = UploadFolder + '/save-image-test.jpg';
 
 	    return UtilService.saveImage(file, 'save-image-test.jpg').then(() => {
 	    	expect(FS.existsSync(target)).toBe(true);
@@ -17,9 +17,9 @@ describe('Utility Service...', () => {
 	});
 
 	test('Replace Image...', () => {
-		var file = FS.createReadStream(AppDir + '/assets/test/book.jpg');
-		var oldTarget = UploadFolder + '/save-image-test.jpg';
-		var newTarget = UploadFolder + '/update-image-test.jpg';
+		const file = FS.createReadStream(AppDir + '/assets/test/book.jpg');
+		const oldTarget = UploadFolder + '/save-image-test.jpg';
+		const newTarget = UploadFolder + '/update-image-test.jpg';
 
 	    return UtilService.replaceImage('save-image-test.jpg', file, 'update-image-test.jpg').then(() => {
 	    	expect(FS.existsSync(oldTarget)).toBe(false);
@@ -28,7 +28,7 @@ describe('Utility Service...', () => {
 	});
 
 	test('Remove Image...', () => {
-		var target = UploadFolder + '/update-image-test.jpg';
+		const target = UploadFolder + '/update-image-test.jpg';
 
 	    return UtilService.removeImage('update-image-test.jpg').then(() => {
 	    	expect(FS.existsSync(target)).toBe(false);

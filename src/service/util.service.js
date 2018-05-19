@@ -2,8 +2,7 @@
 
 const FS = require('fs');
 const UploadFolder = __dirname + '/../../assets/uploads';
-
-var Api = {};
+const Api = {};
 
 // TODO - Make this better
 Api.uid = function() {
@@ -12,8 +11,8 @@ Api.uid = function() {
 
 Api.saveImage = function(file, name) {
 	return new Promise((resolve, reject) => {
-		var path = UploadFolder + '/' + name;
-		var stream = FS.createWriteStream(path);
+		const path = UploadFolder + '/' + name;
+		const stream = FS.createWriteStream(path);
 
 		// Handlers
         stream.on('error', (err) => { reject(err); });
@@ -25,7 +24,7 @@ Api.saveImage = function(file, name) {
 
 Api.removeImage = function(name) {
 	return new Promise((resolve, reject) => {
-		var path = UploadFolder + '/' + name;
+		const path = UploadFolder + '/' + name;
 
 		FS.unlink(path, (err) => {
 			if (err) return reject(err);

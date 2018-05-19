@@ -98,7 +98,7 @@ exports.remove = (req, h) => {
  * @apiParam {File}     image   The image file for upload
  */
 exports.createImage = (req, h) => {
-    var image = req.payload.image;
+    const image = req.payload.image;
     if (!image) throw Boom.badRequest('Image Missing');
 
     return POI.findById(req.params.id).exec().then((poi) => {
@@ -118,7 +118,7 @@ exports.createImage = (req, h) => {
  * @apiParam {File}     image   The image file for upload
  */
 exports.updateImage = (req, h) => {
-    var image = req.payload.image;
+    const image = req.payload.image;
     if (!image) throw Boom.badRequest('Image Missing');
 
     return POI.findById(req.params.id).exec().then((poi) => {

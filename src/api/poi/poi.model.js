@@ -19,7 +19,7 @@ const UtilService = require(__dirname + '/../../service/util.service');
  * @apiSuccess {String}     images.uri      Fully qualified URI for image
  * @apiSuccess {Boolean}    isComplete      Flag to indicate if POI is complete (immutable)
  */
-var schema = new Schema({
+const schema = new Schema({
 	name: { type:String, required:true, index:{unique:true} },
 	description: { type:String },
 	images: [{_id:false, name:String, position:Number, uri:String}],
@@ -55,7 +55,7 @@ schema.methods.toJSON = function(opts) {
 };
 
 schema.methods.saveImage = function(image) {
-	var filename = UtilService.uid();
+	const filename = UtilService.uid();
 
     return UtilService.saveImage(image, filename).then(() => {
         this.images.push({name:filename, position:this.images.length});
@@ -64,8 +64,8 @@ schema.methods.saveImage = function(image) {
 };
 
 schema.methods.updateImage = function(name, image) {
-    var newName = UtilService.uid();
-	var oldImage = _.find(this.images, {name:name});
+    const newName = UtilService.uid();
+	const oldImage = _.find(this.images, {name:name});
 	if (!oldImage) return Promise.reject('POI Image Not Found');
 
     return UtilService.replaceImage(oldImage.name, image, newName).then(() => {
@@ -76,7 +76,7 @@ schema.methods.updateImage = function(name, image) {
 };
 
 schema.methods.removeImage = function(name) {
-	var oldImage = _.remove(this.images, {name:name})[0];
+	const oldImage = _.remove(this.images, {name:name})[0];
 	if (!oldImage) return Promise.reject('POI Image Not Found');
 
     return UtilService.removeImage(oldImage.name).then(() => {
