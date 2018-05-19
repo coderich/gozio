@@ -5,11 +5,11 @@ const UploadFolder = __dirname + '/../../assets/uploads';
 const Api = {};
 
 // TODO - Make this better
-Api.uid = function() {
+Api.uid = function () {
 	return new Date().getTime();
 };
 
-Api.saveImage = function(file, name) {
+Api.saveImage = function (file, name) {
 	return new Promise((resolve, reject) => {
 		const path = UploadFolder + '/' + name;
 		const stream = FS.createWriteStream(path);
@@ -22,7 +22,7 @@ Api.saveImage = function(file, name) {
 	});
 };
 
-Api.removeImage = function(name) {
+Api.removeImage = function (name) {
 	return new Promise((resolve, reject) => {
 		const path = UploadFolder + '/' + name;
 
@@ -33,8 +33,8 @@ Api.removeImage = function(name) {
 	});
 };
 
-Api.replaceImage = function(oldName, newFile, newName) {
-	return Api.removeImage(oldName).then(function() {
+Api.replaceImage = function (oldName, newFile, newName) {
+	return Api.removeImage(oldName).then(() => {
 		return Api.saveImage(newFile, newName);
 	});
 };

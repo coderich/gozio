@@ -90,7 +90,7 @@ describe('POI API...', () => {
 	test('Add 1st Image...', () => {
 		const image1Data = new FormData(); image1Data.append('image', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'cafe.jpg')));
 
-		return StreamToPromise(image1Data).then(function(payload) {
+		return StreamToPromise(image1Data).then((payload) => {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image1Data.getHeaders()}).then(response => {
 		    	const result = response.result; image1Name = result.images[0].name;
 		    	expect(response.statusCode).toBe(200);		// Success
@@ -105,7 +105,7 @@ describe('POI API...', () => {
 	test('Add 2nd Image...', () => {
 		const image2Data = new FormData(); image2Data.append('image', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'book.jpg')));
 
-		return StreamToPromise(image2Data).then(function(payload) {
+		return StreamToPromise(image2Data).then((payload) => {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image2Data.getHeaders()}).then(response => {
 		    	const result = response.result; image2Name = result.images[1].name;
 		    	expect(response.statusCode).toBe(200);		// Success
@@ -121,7 +121,7 @@ describe('POI API...', () => {
 	test('Add 3rd Image...', () => {
 		const image3Data = new FormData(); image3Data.append('image', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'gym.jpg')));
 
-		return StreamToPromise(image3Data).then(function(payload) {
+		return StreamToPromise(image3Data).then((payload) => {
 		    return Server.inject({method:'POST', url:'/poi/' + poi1Id + '/image', payload:payload, headers:image3Data.getHeaders()}).then(response => {
 		    	const result = response.result; image3Name = result.images[2].name;
 		    	expect(response.statusCode).toBe(200);		// Success
@@ -138,7 +138,7 @@ describe('POI API...', () => {
 	test('Replace 3rd Image...', () => {
 		const image1Data = new FormData(); image1Data.append('image', FS.createReadStream(Path.join(AppDir, 'assets', 'test', 'cafe.jpg')));
 
-		return StreamToPromise(image1Data).then(function(payload) {
+		return StreamToPromise(image1Data).then((payload) => {
 		    return Server.inject({method:'PUT', url:'/poi/' + poi1Id + '/image/' + image3Name, payload:payload, headers:image1Data.getHeaders()}).then(response => {
 		    	const result = response.result;
 		    	expect(response.statusCode).toBe(200);					// Success
